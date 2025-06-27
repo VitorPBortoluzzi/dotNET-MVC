@@ -11,5 +11,16 @@ namespace MVC.DAL
         public Contexto(DbContextOptions<Contexto> options) : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Tarefa>()
+                .HasOne(t => t.Projeto)
+                .WithMany(p => p.Tarefas)
+                .HasForeignKey(t => t.ProjetoId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
